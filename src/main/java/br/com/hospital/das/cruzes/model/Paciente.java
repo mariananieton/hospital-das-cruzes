@@ -1,7 +1,6 @@
 package br.com.hospital.das.cruzes.model;
 
 import java.time.LocalDate;
-import java.util.StringJoiner;
 
 public class Paciente {
 
@@ -10,6 +9,17 @@ public class Paciente {
 	private LocalDate dtNascimento;
 	private char sexoBiologico;
 	private String procedimento;
+
+	public Paciente() {
+
+	}
+
+	public Paciente(String nome, LocalDate dtNascimento, char sexoBiologico, String procedimento) {
+		this.nome = nome;
+		this.dtNascimento = dtNascimento;
+		this.sexoBiologico = sexoBiologico;
+		this.procedimento = procedimento;
+	}
 
 	public int getId() {
 		return id;
@@ -53,12 +63,6 @@ public class Paciente {
 
 	@Override
 	public String toString() {
-		return new StringJoiner(", ", Paciente.class.getSimpleName() + "[", "]")
-				.add("id=" + id)
-				.add("nome='" + nome + "'")
-				.add("dtNascimento=" + dtNascimento)
-				.add("sexoBiologico=" + sexoBiologico)
-				.add("procedimento='" + procedimento + "'")
-				.toString();
+		return "Paciente{nome='" + nome + "\', dtNascimento=" + dtNascimento + ", sexoBiologico=" + sexoBiologico + ", procedimento=" + procedimento + "}" ;
 	}
 }
