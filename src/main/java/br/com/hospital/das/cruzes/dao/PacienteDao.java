@@ -49,6 +49,36 @@ public class PacienteDao implements AbstractDao<Paciente> {
 		}
 	}
 
+	public void cadastrarLista(List<Paciente> pacientes) {
+		try (Connection conexao = ConnectionFactory.getConnection();
+			 PreparedStatement stm = conexao.prepareStatement("insert into T_HDC_PACIENTE(id_paciente," +
+					 "nm_paciente, dt_nascimento, fl_sexo_biologico, nm_procedimento) values " +
+					 "(SQ_HDC_PACIENTE.nextval, ?, ?, ?, ?)")) {
+			int i = 0;
+
+			for (Paciente paciente : pacientes) {
+				stm.setString(1, paciente.getNome());
+				stm.setDate(2, java.sql.Date.valueOf(paciente.getDtNascimento()));
+				stm.setString(3, String.valueOf(paciente.getSexoBiologico()));
+				stm.setString(4, paciente.getProcedimento());
+				stm.addBatch();
+				i++;
+
+				if (i % 10 == 0 || i == pacientes.size()){
+					stm.executeBatch();
+				}
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("A classe (Driver) não existe");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("Não foi possível conectar no banco de dados");
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * Método utilizado para listar todos os registros do banco
 	 *
@@ -73,7 +103,7 @@ public class PacienteDao implements AbstractDao<Paciente> {
 				lista.add(paciente);
 			}
 			conexao.close();
-		}catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -141,7 +171,8 @@ public class PacienteDao implements AbstractDao<Paciente> {
 	 * @return paciente referente ao id pesquisado
 	 * @throws PacienteNotFoundException lancado quando não encontrado nenhum registro
 	 */
-	public Paciente pesquisarPorCodigo(int id) throws PacienteNotFoundException {
+	@Override
+	public Paciente buscarPorCodigo(int id) throws PacienteNotFoundException {
 		Paciente paciente = null;
 		try {
 			Connection conexao = ConnectionFactory.getConnection();

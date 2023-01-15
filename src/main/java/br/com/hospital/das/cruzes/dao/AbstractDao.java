@@ -14,7 +14,7 @@ public interface AbstractDao<T> {
 
 	void apagar(T objeto);
 
-	default T buscarPorCodigo(int id) {
+	default T buscarPorCodigo(int id) throws Exception {
 		return null;
 	}
 
