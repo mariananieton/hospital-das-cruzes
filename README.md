@@ -11,5 +11,5 @@ numero de internados por sexo.
 Para sua sorte o hospital recebe sempre os arquivos no mesmo formato. A extensão do arquivo de entrada também é um .csv.
 O conteudo do arquivo é sobre os pacientes que tiveram alta após uma cirurgia e os dados não são mais necessarios 
 na base transacional, mas para backup é necessario mantê-los.
-Programa deve reconhecer um paciente/alta com nome, data de nascimento, sexo e precedimento realizado.
+Programa deve reconhecer um paciente/alta com nome, data de nascimento, sexo e procedimento realizado.
 Os arquivos por padrão são sempre carregados no servidor do hospital na pasta "C:\Users\...".
