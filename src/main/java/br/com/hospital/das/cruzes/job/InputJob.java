@@ -1,29 +1,25 @@
-package br.com.hospital.das.cruzes;
+package br.com.hospital.das.cruzes.job;
 
 import br.com.hospital.das.cruzes.dao.PacienteDao;
 import br.com.hospital.das.cruzes.model.Paciente;
 import com.google.common.base.Stopwatch;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class App {
+public class InputJob {
+
+	public static final String FILE_NAME = "BASE_HOSP_CRUZ_2023.csv";
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public static void main(String[] args) throws IOException {
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-		/*Files.lines(Paths.get("BASE_HOSP_CRUZ_2023.csv"))
-				.skip(1)
-				.map(line -> line.split(";"))
-				.map(cols-> new Paciente(cols[0], LocalDate.parse(cols[1], formatter), cols[2].charAt(0), cols[3]))
-				.forEach(System.out::println);*/
-
-		InputStream fileInputStream = new FileInputStream("BASE_HOSP_CRUZ_2023.csv");
+		InputStream fileInputStream = Files.newInputStream(Paths.get(FILE_NAME));
 		Reader reader = new InputStreamReader(fileInputStream);
 		BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -44,8 +40,7 @@ public class App {
 			System.out.println("paciente inserido em " + swPaciente.elapsed(TimeUnit.MILLISECONDS) + "ms");
 		}
 		pacienteDao.cadastrarLista(pacientes);
-		System.out.println("processo finalizado em "+ swTotal.elapsed(TimeUnit.MILLISECONDS)+"ms");
-		pacienteDao.consultarTodos();
+		System.out.println("processo finalizado em " + swTotal.elapsed(TimeUnit.MILLISECONDS) + "ms");
 		System.out.println(pacientes);
 
 		bufferedReader.close();
